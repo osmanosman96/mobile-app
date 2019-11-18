@@ -1,6 +1,2 @@
 # git-demo
-Demonstration for usage of Git
-
-This is a new change.
-
-Some extra changes.
+Mobile Application for parents of school children to manage school activities.
