@@ -1,0 +1,5 @@
+GitHub:
+https://github.com/osmanosman96/mobile-app.git
+
+Bootstrap Library:
+bootstrap.min.css from https://getbootstrap.com

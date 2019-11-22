@@ -14,14 +14,7 @@
 <body style="text-align: center;">
 	<h3>Admin Register</h3>
 
-    <form id="admin_register" @submit="checkForm" novalidate="true">
-        <p v-if="errors.length">
-            <b>Please correct the following error(s):</b>
-            <ul>
-                <li v-for="error in errors">{{ error }}</li>
-            </ul>
-        </p>
-
+    <form id="admin_register">
     	<div class="form-group">
     		<input type="text" placeholder="email" v-model="email">
     	</div>
@@ -30,7 +23,7 @@
     		<input type="password" placeholder="password" v-model="password">
     	</div>
 
-    	<button class="btn btn-primary">Register</button>
+    	<button v-on:click="onSubmit" class="btn btn-primary">Register</button>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
