@@ -17,8 +17,8 @@ var user = new Vue({
 		search: ''
 	},
 	methods: {
-		onSubmit: function() {
-			
+		onSubmit: function () {
+
 		}
 	}
 });
@@ -37,5 +37,54 @@ var filterApp = new Vue({
 		locations: function () {
 			return [...new Set(this.courses.map(x => x.location))]
 		}
+	}
+});
+
+var dataTable = new Vue({
+	el: '#data-table',
+	data: {
+		currentCourses: JSON.parse(localStorage.getItem("courses"))
+	},
+	computed: {
+
+	},
+	mounted() {
+
+		var myInit = {
+			method: 'GET',
+			mode: 'cors',
+			cache: 'default',
+		};
+
+		var courseRequest = new Request('http://localhost:3000', myInit);
+
+		fetch(courseRequest)
+			.then(function (response) {
+				if (!response.ok) {
+					throw new Error("HTTP error, status = " + response.status);
+				}
+				return response.json();
+			}).catch((error) => {
+				alert('Unable to reach the server!');
+				return;
+			})
+			.then(function (json) {
+				this.currentCourses = localStorage.getItem("courses")
+				localStorage.setItem("courses", JSON.stringify(json))
+				// console.log(typeof json);
+				// console.log(typeof this.currentCourses);
+
+				// this.currentCourses = json;
+				// Vue.set(this.currentCourses, json)
+				return console.log(this.currentCourses);
+				// location.href = "http://127.0.0.1:8887/user.html";
+			})
+			.catch(function (error) {
+				var p = document.createElement('p');
+				p.appendChild(
+					document.createTextNode('Error: ' + error.message)
+				);
+				// document.body.insertBefore(p, myList);
+			});
 	}
 })
