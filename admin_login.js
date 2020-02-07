@@ -32,6 +32,7 @@ var admin_login = new Vue({
 		onSubmit: function() {
 			var users = '';
 			var newEmail = this.email;
+			var newPassword = this.password;
 
 			if (localStorage.getItem('admins')) {
 				users = JSON.parse(localStorage.getItem('admins'));
@@ -50,7 +51,42 @@ var admin_login = new Vue({
 
 				alert('Email Password combination invalid');
 			} else {
-				alert('No Users Registered');
+				var myHeaders = new Headers();
+
+				var myInit = {
+					method: 'POST',
+					headers: myHeaders,
+					mode: 'cors',
+					cache: 'default',
+					body: { email: newEmail, password: newPassword }
+				};
+
+				var registerRequest = new Request('http://localhost:3000/user/login', myInit);
+
+				fetch(registerRequest)
+					.then(function (response) {
+						if (!response.ok) {
+							throw new Error("HTTP error, status = " + response.status);
+						}
+						users = [{ 'email': newEmail, 'password': this.password, 'fullName': this.fullName }];
+						localStorage.setItem('admins', JSON.stringify(users));
+						return response.json();
+					}).catch((error) => {
+						alert('Unable to reach the server!');
+						return;
+					})
+					.then(function (json) {
+						//Redirect to user page
+						location.href = "http://127.0.0.1:8887/user.html";
+						return;
+					})
+					.catch(function (error) {
+						var p = document.createElement('p');
+						p.appendChild(
+							document.createTextNode('Error: ' + error.message)
+						);
+						// document.body.insertBefore(p, myList);
+					});
 			}
 		}
 	}
